@@ -1,0 +1,9 @@
+[package]
+name = "flyserve_api"
+version = "0.1.0"
+authors = ["Konasov Dmitriy <d.konasov@yandex.ru>"]
+
+[dependencies]
+percent-encoding = "1.0.1"
+chrono = "0.4"
+regex = "1"

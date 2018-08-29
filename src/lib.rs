@@ -132,7 +132,7 @@ pub struct HttpResponse<'a> {
     pub headers: BTreeMap<String, String>,
     pub body: Option<String>,
     pub to_send: bool,
-    response_handlers: Vec<&'a mut FnMut()>
+    response_handlers: Vec<Box<FnMut() + 'a>>
 }
 
 impl<'a> HttpResponse<'a> {
@@ -151,7 +151,7 @@ impl<'a> HttpResponse<'a> {
             response_handlers: Vec::new()
         }
     }
-    pub fn set_response_handler(&mut self, handler: &'a mut FnMut()) {
+    pub fn set_response_handler(&mut self, handler: Box<FnMut() + 'a>) {
         self.response_handlers.push(handler);
     }
     pub fn send(&mut self) {
@@ -271,9 +271,8 @@ mod tests {
     fn send_response() {
         let mut response_sent = false;
         {
-            let handler = &mut || { response_sent = true; };
             let mut response = HttpResponse::new();
-            response.set_response_handler(handler);
+            response.set_response_handler(Box::new(|| { response_sent = true; }));
             response.send();
         }
         assert!(response_sent);

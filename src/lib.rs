@@ -51,6 +51,7 @@ pub struct HttpRequest {
     pub query: BTreeMap<String, String>,
     pub version: String,
     pub headers: BTreeMap<String, String>,
+    pub params: BTreeMap<String, String>,
     pub body: String
 }
 impl HttpRequest {
@@ -119,7 +120,8 @@ impl HttpRequest {
             query: query,
             version: String::from(protocol_info_vec[1]),
             headers: headers,
-            body: body.to_string()
+            body: body.to_string(),
+            params: BTreeMap::new()
         })
     }
 }

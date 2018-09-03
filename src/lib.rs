@@ -156,7 +156,6 @@ impl<'a> HttpResponse<'a> {
     }
     pub fn send(&mut self) {
         let current_response = self.clone();
-        println!("Handlers len: {}", self.response_handlers.len());
         for handler in self.response_handlers.iter_mut() {
             handler(&current_response);
         }
